@@ -1,0 +1,42 @@
+﻿@using CORE.Entities
+@model List<Category>
+@{
+	int i = 1;
+}
+<div class="category-tab">
+	<!--category-tab-->
+	<div class="col-sm-12">
+		<ul class="nav nav-tabs">
+			@for (int k=0; k<Model.Count; k++)
+			{
+				<li class="@(k==0 ? "active" : "")"><a href="#@Model[k].Name" data-toggle="tab">@Model[k].Name</a></li>
+			}
+		</ul>
+	</div>
+	<div class="tab-content">
+		@for (int k = 0; k < Model.Count; k++)
+		{
+			<div class="tab-pane fade @(k==0 ? "active in" : "")" id="@Model[k].Name">
+				@foreach (Product product in Model[k].BrandCategories.SelectMany(i => i.Brand.Products).OrderByDescending(i => i.CreateOn).Take(4))
+				{
+					<div class="col-sm-3">
+						<div class="product-image-wrapper">
+							<div class="single-products">
+								<div class="productinfo text-center">
+									<img src="~/images/home/@product.Images[0].Url" alt="" />
+									<h2>$@product.Price</h2>
+									<p>@product.Name</p>
+									<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Sepete Ekle</a>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				}
+				
+			</div>
+			i += 1;
+		}
+		
+	</div>
+</div><!--/category-tab-->

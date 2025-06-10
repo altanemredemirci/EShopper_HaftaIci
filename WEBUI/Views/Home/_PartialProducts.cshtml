@@ -1,0 +1,31 @@
+﻿@using CORE.Entities
+@model List<Product>
+
+@foreach (var item in Model)
+{
+    <div class="col-sm-4">
+        <div class="product-image-wrapper">
+            <div class="single-products">
+                <div class="productinfo text-center">
+                    <img src="~/images/home/@item.Images[0].Url" alt="" />
+                    <h2>$@item.Price</h2>
+                    <p>@item.Name</p>
+                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Sepete Ekle</a>
+                </div>
+                <div class="product-overlay">
+                    <div class="overlay-content">
+                        <h2>$@item.Price</h2>
+                        <p>@item.Name</p>
+                        <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Sepete Ekle</a>
+                    </div>
+                </div>
+            </div>
+            <div class="choose">
+                <ul class="nav nav-pills nav-justified">
+                    <li><a href="#"><i class="fa fa-heart"></i>Beğen</a></li>
+                    <li><a href="/Home/ProductDetail?id=@item.Id"><i class="fa fa-plus-square"></i>Detay</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+}
