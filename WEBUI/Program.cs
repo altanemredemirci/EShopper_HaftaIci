@@ -51,7 +51,7 @@ namespace WEBUI
 
             builder.Services.ConfigureApplicationCookie(options =>
             {
-                options.Cookie.Name = "TeklifAlani.Security.Cookie";
+                options.Cookie.Name = "EShopper.Security.Cookie";
                 options.LoginPath = "/Account/Login";
                 options.AccessDeniedPath = "/Account/AccessDenied";
                 options.LogoutPath = "/Account/Logout";
