@@ -66,13 +66,17 @@ namespace WEBUI
 
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<IProductDal, ProductDal>();
+            
             builder.Services.AddScoped<IBrandService, BrandService>();
             builder.Services.AddScoped<IBrandDal, BrandDal>();
+            
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<ICategoryDal, CategoryDal>();
+            
             builder.Services.AddScoped<IEmailSender, MailHelper>();
 
-
+            builder.Services.AddScoped<ICartService, CartService>();
+            builder.Services.AddScoped<ICartDal, CartDal>();
 
 
             //AUTO MAPPER : Bir DTO yapýsýný bir ENTITY e aktarmayý kolaylaþtýrýr. DTO:Data Transfer Object

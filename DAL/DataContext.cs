@@ -20,9 +20,11 @@ namespace DAL
                 .Property(i => i.Name)
                 .HasColumnOrder(0);
 
-            //modelBuilder.Entity<ApplicationUser>()
-            //        .Property(i => i.UserName)
-            //        .IsRequired(false);
+            // Explicitly configure the one-to-one relationship
+            modelBuilder.Entity<ApplicationUser>()
+                .HasOne(u => u.Cart)
+                .WithOne(c => c.ApplicationUser)
+                .HasForeignKey<Cart>(c => c.ApplicationUserId);
 
             base.OnModelCreating(modelBuilder);
         }
@@ -33,5 +35,7 @@ namespace DAL
         public DbSet<BrandCategory> BrandCategories { get; set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<Slider> Slider { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
     }
 }

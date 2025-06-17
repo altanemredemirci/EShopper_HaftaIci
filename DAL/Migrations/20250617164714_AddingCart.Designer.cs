@@ -4,6 +4,7 @@ using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250617164714_AddingCart")]
+    partial class AddingCart
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,10 +78,12 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<decimal>("CartTotal")
+                        .HasColumnType("decimal(18,2)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId")
-                        .IsUnique();
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Carts");
                 });
@@ -261,9 +266,6 @@ namespace DAL.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CartId")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -490,8 +492,8 @@ namespace DAL.Migrations
             modelBuilder.Entity("CORE.Entities.Cart", b =>
                 {
                     b.HasOne("CORE.Identity.ApplicationUser", "ApplicationUser")
-                        .WithOne("Cart")
-                        .HasForeignKey("CORE.Entities.Cart", "ApplicationUserId")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -613,12 +615,6 @@ namespace DAL.Migrations
             modelBuilder.Entity("CORE.Entities.Product", b =>
                 {
                     b.Navigation("Images");
-                });
-
-            modelBuilder.Entity("CORE.Identity.ApplicationUser", b =>
-                {
-                    b.Navigation("Cart")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

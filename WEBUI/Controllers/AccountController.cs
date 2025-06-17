@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using BLL.Abstract;
 using CORE.DTOs.ApplicationUser;
+using CORE.Entities;
 using CORE.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,13 +17,15 @@ namespace WEBUI.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IMapper _mapper;
         private readonly IEmailSender _emailSender;
+        private readonly ICartService _cartService;
 
-        public AccountController(UserManager<ApplicationUser> userManager,IMapper mapper,IEmailSender emailSender,SignInManager<ApplicationUser> signInManager)
+        public AccountController(UserManager<ApplicationUser> userManager,IMapper mapper,IEmailSender emailSender,SignInManager<ApplicationUser> signInManager,ICartService cartService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _mapper = mapper;
             _emailSender = emailSender;
+            _cartService = cartService;
         }
 
         public IActionResult Login()
@@ -122,6 +126,16 @@ namespace WEBUI.Controllers
 
             await _userManager.ConfirmEmailAsync(user, token);
             TempData["message"] = "Üyelik hesabınız onaylandı.";
+
+            //Kullanıcı email doğrulama sonrası sepet oluşturma işlemi
+            var cart = await _cartService.GetOneAsync(i => i.ApplicationUserId == user.Id);
+
+            if (cart == null)
+            {
+                cart = new Cart() { ApplicationUserId = user.Id };
+
+                await _cartService.CreateAsync(cart);
+            }
             return RedirectToAction("Login");
         }
 
