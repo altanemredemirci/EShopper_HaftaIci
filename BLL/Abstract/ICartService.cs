@@ -11,6 +11,6 @@ namespace BLL.Abstract
     public interface ICartService:IRepository<Cart>
     {
         Task AddToCartAsync(Cart cart, int productId, int quantity);
-        Task DeleteFromCartAsync(int productId);
+        Task DeleteFromCartAsync(int cartId, int productId);
     }
 }

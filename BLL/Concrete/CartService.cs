@@ -36,9 +36,9 @@ namespace BLL.Concrete
 
         }
 
-        public Task DeleteFromCartAsync(int productId)
+        public Task DeleteFromCartAsync(int cartId, int productId)
         {
-            return _cartDal.DeleteFromCartAsync(productId);
+            return _cartDal.DeleteFromCartAsync(cartId, productId);
         }
 
         public Task<Cart> FindAsync(int id)

@@ -12,6 +12,6 @@ namespace DAL.Abstract
     public interface ICartDal : IRepository<Cart>
     {
         Task AddToCartAsync(Cart cart, int productId, int quantity);
-        Task DeleteFromCartAsync(int productId);
+        Task DeleteFromCartAsync(int cartId, int productId);
     }
 }

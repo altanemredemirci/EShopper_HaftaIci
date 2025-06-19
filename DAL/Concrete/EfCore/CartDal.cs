@@ -40,9 +40,20 @@ namespace DAL.Concrete.EfCore
             return _context.SaveChangesAsync();            
         }
 
-        public Task DeleteFromCartAsync(int productId)
+        public async Task DeleteFromCartAsync(int cartId, int productId)
         {
-            throw new NotImplementedException();
+            var cart = await _context.Carts.FindAsync(cartId);
+
+            if (cart != null)
+            {
+                var cartItem = await _context.CartItems.FirstOrDefaultAsync(i => i.ProductId == productId && i.CartId==cart.Id);
+
+                if (cartItem != null)
+                {
+                    _context.CartItems.Remove(cartItem);
+                    await _context.SaveChangesAsync();
+                }
+            }         
         }
 
         public override Task<Cart> GetOneAsync(Expression<Func<Cart, bool>> filter)

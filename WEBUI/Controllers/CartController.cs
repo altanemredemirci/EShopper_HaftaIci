@@ -42,5 +42,18 @@ namespace WEBUI.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> DeleteFromCart(int productId, int cartId)
+        {
+            await _cartService.DeleteFromCartAsync(cartId, productId);
+
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Checkout()
+        {
+            var userId = _userManager.GetUserId(User);
+            var cart = await _cartService.GetOneAsync(i => i.ApplicationUserId == userId);
+            return View(cart);
+        }
     }
 }
